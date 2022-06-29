@@ -11,6 +11,7 @@
     <p><button id="copy">Copy</button></p>
 
     <script>
+        // first method
         function copyToClipboard(){
             let copyText = document.querySelector('#input');
             copyText.select();
@@ -18,6 +19,16 @@
         }
 
         document.querySelector('#copy').addEventListener('click', copyToClipboard);
+
+        // second method
+        const copyToClipboard = (text) => {
+        navigator.clipboard.writeText(text)
+            .then(() => {
+                console.log('Successfully copy the url')
+            }, () => {
+                console.log('Failed to copy the url')
+            })
+    } 
         
     </script>
 </body>
