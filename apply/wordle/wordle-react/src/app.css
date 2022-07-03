@@ -1,0 +1,20 @@
+.line {
+    width: 30px;
+    height: 30px;
+    border: 1px solid black;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-transform: uppercase;
+}
+
+.lines {
+    display: flex;
+    gap: 5px
+}
+
+.tile {
+    display: flex;
+    gap: 5px;
+    flex-direction: column;
+}
