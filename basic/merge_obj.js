@@ -1,42 +1,73 @@
-const arrs = [
-    {name: 'don', last: 'um'},
-    {name: 'don', last: 'uma'},
-    {name: 'burhan', last: 'sa'},
-    {name: 'burhan', last: 'saleh'},
-    {name: 'kim', last: 'k'},
-    {name: 'kim', last: 'ki'},
-    {name: 'kim', last: 'kim'},
-];
+const jsonData = require('./data/data_test.json');
 
-let names = {};
-let prevItem = null;
+/**
+ * ### Final output
+ * ```json
+ * [
+ *   {
+ *      profile_name: 'CBC', 
+ *      profile_detail: [
+ *          {lab_items_name: 'Spherocyte' },
+ *          {lab_items_name: 'Spherocyte' },
+ *          {lab_items_name: 'Spherocyte' },
+ *     ]
+ *   },
+ *   {
+ *      profile_name: 'CBC', 
+ *      profile_detail: [
+ *          {lab_items_name: 'Spherocyte' },
+ *          {lab_items_name: 'Spherocyte' },
+ *          {lab_items_name: 'Spherocyte' },
+ *     ]
+ *   }
+ * ]
+ * ```
+ */
+function reformatArray(inputData)
+{
+    let data = [];
+    let prevItem = null;
 
-arrs.map((item) => {
-    if(!Boolean(prevItem))
-    {
-        if(!names[item.name])
+    inputData.map((item) => {
+        if(!Boolean(prevItem))
         {
-            names[item.name] = [];
-        }
-        names[item.name].push(item);
-    }else if(prevItem.name !== item.name)
-    {
-        if(!names[item.name])
+            if(data.length === 0)
+            {
+                data.push({
+                    profile_name: item['lab_profile_name'], 
+                    profile_detail: [{lab_items_name: item['lab_items_name']}]
+                });
+            }
+            // names[item.name].push(item);
+        }else if(prevItem['lab_profile_name'] !== item['lab_profile_name'])
         {
-            names[item.name] = [];
+            data.push({
+                profile_name: item['lab_profile_name'], 
+                profile_detail: [{lab_items_name: item['lab_items_name']}]
+            });
         }
-        names[item.name].push(item);
-    }
+        
+        else{
+            if(prevItem['lab_profile_name'] === item['lab_profile_name'])
+            {
+                if(data.length > 0)
+                {
+                    // names[item.name].push(item);
+                    const existData = data.find(d => d['profile_name'] === item['lab_profile_name']);
+                    // console.log(existData['profile_detail']);
+                    existData['profile_detail'].push({lab_items_name: item['lab_items_name']});
+
+                }
+            }
+        }
+        prevItem=item;
     
-    else{
-        if(prevItem.name === item.name)
-        {
-            names[item.name].push(item);
-        }
-    }
-    prevItem=item;
+        return item;
+    });
 
-    return item;
-});
+    return data;
+}
 
-console.log(names)
+const data = reformatArray(jsonData);
+// console.log(jsonData)
+console.log(JSON.stringify(data));
