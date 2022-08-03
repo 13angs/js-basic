@@ -40,4 +40,19 @@ function getOneArrArgs(args){
     return args;
 }
 
-console.log(getOneArrArgs(...arrStr));
+
+
+/** 
+ * ### Find index by element name
+ * method: arr.indexOf()
+*/
+
+function findIndByEleName(element='awaiting', elements=['in use', 'awaiting'])
+{
+    const ind = elements.indexOf(element);
+    return ind;
+}
+
+
+const ind = findIndByEleName();
+ind
